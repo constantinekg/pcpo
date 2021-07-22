@@ -1,4 +1,4 @@
 mysqlhost = 'localhost'
-mysqldbname = 'gco'
-mysqluser = 'gcodbuser'
+mysqldbname = 'pcpo'
+mysqluser = 'pcpodbuser'
 mysqlpassword = 'JLKasr43m534653mlkfsd^'
