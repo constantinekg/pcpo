@@ -97,6 +97,8 @@ root@pcpo:~# /opt/pcpo/scanner/rerun.sh
 
 Готовый образ машины в формате qcow2:  https://cloud.mail.ru/public/1EkR/b3DGfh2de
 
+Обсуждение на хабре: https://habr.com/ru/post/570190/
+
 ### Отдельные благодарности:
 
     Александру (в миру Михалыч) за площадку для обкатки и воплощение старой идеи 
