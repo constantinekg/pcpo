@@ -31,7 +31,7 @@ sudo mysql -e "GRANT ALL ON pcpo.* TO 'pcpodbuser'@'localhost';"
 sudo mysql -e "GRANT SELECT ON pcpo.* TO 'pcpodbuser'@'localhost';"
 sudo mysql -e "FLUSH PRIVILEGES;"
 
-
+sudo cp  /etc/nginx/sites-available/default  /etc/nginx/sites-available/default.bak
 sudo rm /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo cp /opt/pcpo/conf/pcpo.conf /etc/nginx/sites-available/pcpo.conf && sudo ln -s /etc/nginx/sites-available/pcpo.conf /etc/nginx/sites-enabled/pcpo.conf
 sudo systemctl restart nginx
