@@ -105,48 +105,54 @@ def gethostinfo(ipaddr, user, password):
             mem += str(i['Manufacturer']).strip()+' '+str(round(int(i['Capacity'])/1024/1024)).strip()+' Mb s/n: '+str(i['SerialNumber']).strip()+' '+memoryerrorcorrectiontype+', '
         # print (system[0]['SystemName'])
         systeminfo.append(str(system[0]['SystemName']))
+        # print (networkadapters)
         for nd in networkadapters:
+            # print (nd['MACAddress'])
+            # if len(re.findall(":", str(nd['MACAddress']))) == 5 and findWholeWord('WAN Miniport')(str(nd['Description'])) == None:
             if len(re.findall(":", str(nd['MACAddress']))) == 5 and findWholeWord('WAN Miniport')(str(nd['Description'])) == None:
                 systeminfo.append(str(nd['MACAddress']))
-                mbinfo = str(baseboard[0]['Manufacturer']+' '+str(baseboard[0]['Product']))
-                if (findWholeWord('Default')(baseboard[0]['SerialNumber']) == None and findWholeWord('Filled')(baseboard[0]['SerialNumber']) == None and len(baseboard[0]['SerialNumber']) > 2):
-                    mbinfo += ' S/N:'+str(baseboard[0]['SerialNumber'])
-                else:
-                    pass
-                systeminfo.append(mbinfo)
-                # print ('CPU: '+str(system[0]['Name']))
-                cpuinfo = str(system[0]['Name'])
-                # print (system[0]['SerialNumber'])
-                if (findWholeWord('Default')(system[0]['SerialNumber']) == None and findWholeWord('Filled')(system[0]['SerialNumber']) == None and len(system[0]['SerialNumber']) > 2):
-                    cpuinfo += ' S/N:'+str(system[0]['SerialNumber'])
-                else:
-                    pass
-                systeminfo.append(cpuinfo)
-                # print('RAM: '+str(mem))
-                systeminfo.append(mem)
-                # print ('Video: '+str(video[0]['Name']))
-                systeminfo.append(str(video[0]['Name'])+' '+str(video[0]['PNPDeviceID']))
-                ddrives = ''
-                for i in hdds:
-                    ddrive = str(i['Caption'])+' s/n: '+str(i['SerialNumber']).strip()+' size: '+str(int(int(i['Size'])/1000000000))+'GB, '
-                    if (findWholeWord('iSCSI')(str(i['Caption'])) == None and hwdb.getOptionByName('hdd_add_iscsi_drives') == '1'):
-                        ddrives += ddrive
-                        # print ('iscsi found')
-                    elif (findWholeWord('USB')(str(i['Caption'])) != None and hwdb.getOptionByName('hdd_add_usb_drives') == '1'):
-                        ddrives += ddrive
-                        # print ('usb found')
-                    elif (findWholeWord('USB')(str(i['Caption'])) == None and findWholeWord('iSCSI')(str(i['Caption'])) == None):
-                        ddrives += ddrive
-                    else:
-                        pass
-                systeminfo.append(ddrives)
-                # if (ddrives != ''):
-                #     systeminfo.append(ddrives)
-                # else:
-                #     pass
             else:
                 pass
-        # print ('--------')
+        if len(baseboard) > 0:
+            mbinfo = str(baseboard[0]['Manufacturer']+' '+str(baseboard[0]['Product']))
+            if (findWholeWord('Default')(baseboard[0]['SerialNumber']) == None and findWholeWord('Filled')(baseboard[0]['SerialNumber']) == None and len(baseboard[0]['SerialNumber']) > 2):
+                mbinfo += ' S/N:'+str(baseboard[0]['SerialNumber'])
+            else:
+                pass
+        else:
+            mbinfo = 'NoName baseboard S/N: NoSerialNumber'
+        systeminfo.append(mbinfo)
+        # print ('CPU: '+str(system[0]['Name']))
+        cpuinfo = str(system[0]['Name'])
+        # # print (system[0]['SerialNumber'])
+        if 'SerialNumber' in system[0]:
+            if (findWholeWord('Default')(system[0]['SerialNumber']) == None and findWholeWord('Filled')(system[0]['SerialNumber']) == None and len(system[0]['SerialNumber']) > 2):
+                cpuinfo += ' S/N:'+str(system[0]['SerialNumber'])
+            else:
+                pass
+        else:
+            cpuinfo += ' S/N: NoSerialNumber'
+        systeminfo.append(cpuinfo)
+        # # print('RAM: '+str(mem))
+        systeminfo.append(mem)
+        # # print ('Video: '+str(video[0]['Name']))
+        systeminfo.append(str(video[0]['Name'])+' '+str(video[0]['PNPDeviceID']))
+        ddrives = ''
+        for i in hdds:
+            ddrive = str(i['Caption'])+' s/n: '+str(i['SerialNumber']).strip()+' size: '+str(int(int(i['Size'])/1000000000))+'GB, '
+            if (findWholeWord('iSCSI')(str(i['Caption'])) == None and hwdb.getOptionByName('hdd_add_iscsi_drives') == '1'):
+                ddrives += ddrive
+        #         # print ('iscsi found')
+            elif (findWholeWord('USB')(str(i['Caption'])) != None and hwdb.getOptionByName('hdd_add_usb_drives') == '1'):
+                ddrives += ddrive
+        #         # print ('usb found')
+            elif (findWholeWord('USB')(str(i['Caption'])) == None and findWholeWord('iSCSI')(str(i['Caption'])) == None):
+                ddrives += ddrive
+            else:
+                pass
+        systeminfo.append(ddrives)
+        print ('--------')
+        print (systeminfo)
         return systeminfo
     except:
         pass
