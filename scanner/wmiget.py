@@ -109,7 +109,8 @@ def gethostinfo(ipaddr, user, password):
         for nd in networkadapters:
             # print (nd['MACAddress'])
             # if len(re.findall(":", str(nd['MACAddress']))) == 5 and findWholeWord('WAN Miniport')(str(nd['Description'])) == None:
-            if len(re.findall(":", str(nd['MACAddress']))) == 5 and findWholeWord('WAN Miniport')(str(nd['Description'])) == None:
+            if len(re.findall(":", str(nd['MACAddress']))) == 5 and findWholeWord('WAN Miniport')(str(nd['Description'])) == None \
+                and findWholeWord('RAS Async')(str(nd['Description'])) == None:
                 systeminfo.append(str(nd['MACAddress']))
             else:
                 pass
@@ -151,8 +152,8 @@ def gethostinfo(ipaddr, user, password):
             else:
                 pass
         systeminfo.append(ddrives)
-        print ('--------')
-        print (systeminfo)
+        # print ('--------')
+        # print (systeminfo)
         return systeminfo
     except:
         pass
