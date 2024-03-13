@@ -107,10 +107,11 @@ def gethostinfo(ipaddr, user, password):
         systeminfo.append(str(system[0]['SystemName']))
         # print (networkadapters)
         for nd in networkadapters:
-            # print (nd['MACAddress'])
+            if nd['IPAddress'] is not None and isinstance(nd['IPAddress'], list) and ipaddr in nd['IPAddress'][0].split(','):
+                # print (ipaddr)
             # if len(re.findall(":", str(nd['MACAddress']))) == 5 and findWholeWord('WAN Miniport')(str(nd['Description'])) == None:
-            if len(re.findall(":", str(nd['MACAddress']))) == 5 and findWholeWord('WAN Miniport')(str(nd['Description'])) == None \
-                and findWholeWord('RAS Async')(str(nd['Description'])) == None:
+            # if len(re.findall(":", str(nd['MACAddress']))) == 5 and findWholeWord('WAN Miniport')(str(nd['Description'])) == None \
+            #     and findWholeWord('RAS Async')(str(nd['Description'])) == None:
                 systeminfo.append(str(nd['MACAddress']))
             else:
                 pass
