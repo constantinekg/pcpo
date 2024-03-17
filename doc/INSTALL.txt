@@ -7,11 +7,11 @@ sudo dpkg-reconfigure tzdata
 
 sudo apt update && sudo apt upgrade -y
 
-sudo apt install php7.4-cli php7.4-common php7.4-bcmath php7.4-bz2 php7.4-curl php7.4-dev php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline php7.4-soap php7.4-sqlite3 php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip php-memcache php-imagick nginx mysql-server python3-pip p7zip-full nmap git -y
+sudo apt install php7.4-cli php7.4-common php7.4-bcmath php7.4-bz2 php7.4-curl php7.4-dev php7.4-enchant php7.4-fpm php7.4-gd php7.4-gmp php7.4-intl php7.4-json php7.4-mbstring php7.4-mysql php7.4-pgsql php7.4-phpdbg php7.4-pspell php7.4-readline php7.4-soap php7.4-sqlite3 php7.4-tidy php7.4-xml php7.4-xmlrpc php7.4-xsl php7.4-zip php-memcache php-imagick nginx mysql-server python3-pip p7zip-full nmap git python3-paramiko -y
 
 sudo pip3 install wmi_client_wrapper wrapper barcodenumber wmi-client-wrapper-py3 mysql-connector python-telegram-bot
 
-7z x web.tar.7z && tar -xvf web.tar && rm web.tar* -f
+7z x web.tar.7z && tar -xvf web.tar
 
 sudo chown www-data:www-data /opt/pcpo/web -R
 
@@ -35,5 +35,6 @@ sudo cp  /etc/nginx/sites-available/default  /etc/nginx/sites-available/default.
 sudo rm /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 sudo cp /opt/pcpo/conf/pcpo.conf /etc/nginx/sites-available/pcpo.conf && sudo ln -s /etc/nginx/sites-available/pcpo.conf /etc/nginx/sites-enabled/pcpo.conf
 sudo systemctl restart nginx
+sudo cd /opt/pcpo && rm web.tar* -f
 
 

@@ -237,5 +237,3 @@ def mainfunction():
     print (end_at)
     print (', '.join("{!s}={!r}".format(key,val) for (key,val) in totalchanges.items()))
     notify.mailAboutConfChanges(changestosendbyemail)
-
-
