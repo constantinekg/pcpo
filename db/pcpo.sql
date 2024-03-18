@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.25, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.36, for Linux (x86_64)
 --
--- Host: localhost    Database: gco
+-- Host: localhost    Database: pcpo
 -- ------------------------------------------------------
--- Server version	8.0.25-0ubuntu0.20.04.1
+-- Server version	8.0.36-0ubuntu0.20.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `auth_assignment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_assignment` (
-  `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `item_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `created_at` int DEFAULT NULL,
   PRIMARY KEY (`item_name`,`user_id`),
   KEY `idx-auth_assignment-user_id` (`user_id`),
   CONSTRAINT `auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,10 +50,10 @@ DROP TABLE IF EXISTS `auth_item`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_item` (
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `type` smallint NOT NULL,
-  `description` text COLLATE utf8_unicode_ci,
-  `rule_name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci,
+  `rule_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `data` blob,
   `created_at` int DEFAULT NULL,
   `updated_at` int DEFAULT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE `auth_item` (
   KEY `rule_name` (`rule_name`),
   KEY `idx-auth_item-type` (`type`),
   CONSTRAINT `auth_item_ibfk_1` FOREIGN KEY (`rule_name`) REFERENCES `auth_rule` (`name`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,13 +82,13 @@ DROP TABLE IF EXISTS `auth_item_child`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_item_child` (
-  `parent` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `child` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `parent` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `child` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`parent`,`child`),
   KEY `child` (`child`),
   CONSTRAINT `auth_item_child_ibfk_1` FOREIGN KEY (`parent`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `auth_item_child_ibfk_2` FOREIGN KEY (`child`) REFERENCES `auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,12 +109,12 @@ DROP TABLE IF EXISTS `auth_rule`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `auth_rule` (
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `data` blob,
   `created_at` int DEFAULT NULL,
   `updated_at` int DEFAULT NULL,
   PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,6 +172,7 @@ CREATE TABLE `networks` (
   `iprange` varchar(45) NOT NULL,
   `user` varchar(45) NOT NULL,
   `password` varchar(120) NOT NULL,
+  `infograbbertype` int DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -212,7 +213,7 @@ CREATE TABLE `options` (
 
 LOCK TABLES `options` WRITE;
 /*!40000 ALTER TABLE `options` DISABLE KEYS */;
-INSERT INTO `options` VALUES (1,'telegrambotapikey','Ключ бота telegram','0'),(2,'telegramchatid','id чата, куда будут высылаться уведомления','0'),(3,'notificationemail','Адрес почтового ящика, на который будут приходить уведомления, в случае если были обнаружены изменения (можно указать несколько адресов, разделяя их запятой [,])','recepient@somemail.tld'),(4,'smtphost','Адрес smtp сервера','smtp.yandex.ru'),(5,'smtpport','Порт smtp сервера','465'),(6,'smtpencryption','Протокол шифрования smtp сервера','1'),(7,'emailuser','Пользователь smtp сервера, от которого будет производиться отправка сообщений','alert@somemail.tld'),(8,'emailpwd','Пароль пользователя smtp сервера, от которого будет производиться отправка сообщений','strongpassword'),(9,'maxscanthreads','Максимально допустимое количество потоков забора информации с хостов','15'),(10,'telegram_notifications_enabled','Включить оповещение через телеграм','0'),(11,'smtp_notifications_enabled','Включить отправку сводного отчёта проверок на почту','0'),(12,'days_for_colorize_new_hosts','Количество суток для проверки и \"подсвечивания\" красным цветом хостов в аналитике, информация о которых появилась за последние N суток.','3'),(13,'days_for_colorize_lost_info_hosts','Количество суток для проверки и \"подсвечивания\" фиолетовым цветом хостов в аналитике, информация о которых не появлялась за последние N суток.','14'),(14,'timezone','Тайм зона, используемая в интерфейсе по умолчанию','Asia/Bishkek'),(15,'emailaboutchanges','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту об изменениях в конфигурациях хостов','1'),(16,'emailaboutnewhosts','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту о новых хостах','1'),(17,'emailaboutfailedhosts','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту о непроверенных хостах','0'),(18,'telegram_message_send_max_tries','Максимальное допустимое количество попыток отправки сообщений (телеграм может посчитать за спам частую отправку сообщений)','20'),(19,'telegram_message_send_retry_delay','Промежуток между попытками отправки сообщений через телеграм (указывается в секундах)','15'),(20,'scanner_debug_mode_enabled','Включить режим отладки в сканере','0'),(21,'scanner_debug_level','Уровень отображения информации отладки в сканере','1'),(22,'smtp_debug_enabled','Включить режим отладки при отправке почты','0'),(23,'hdd_add_iscsi_drives','Учитывать при проверке хоста диски, подключенные по iSCSI','0'),(24,'hdd_add_usb_drives','Учитывать при проверке хоста диски, подключенные по USB','0');
+INSERT INTO `options` VALUES (1,'telegrambotapikey','Ключ бота telegram','0'),(2,'telegramchatid','id чата, куда будут высылаться уведомления','0'),(3,'notificationemail','Адрес почтового ящика, на который будут приходить уведомления, в случае если были обнаружены изменения (можно указать несколько адресов, разделяя их запятой [,])','recepient@somemail.tld'),(4,'smtphost','Адрес smtp сервера','smtp.yandex.ru'),(5,'smtpport','Порт smtp сервера','465'),(6,'smtpencryption','Протокол шифрования smtp сервера','1'),(7,'emailuser','Пользователь smtp сервера, от которого будет производиться отправка сообщений','alert@somemail.tld'),(8,'emailpwd','Пароль пользователя smtp сервера, от которого будет производиться отправка сообщений','strongpassword'),(9,'maxscanthreads','Максимально допустимое количество потоков забора информации с хостов','15'),(10,'telegram_notifications_enabled','Включить оповещение через телеграм','0'),(11,'smtp_notifications_enabled','Включить отправку сводного отчёта проверок на почту','0'),(12,'days_for_colorize_new_hosts','Количество суток для проверки и \"подсвечивания\" красным цветом хостов в аналитике, информация о которых появилась за последние N суток.','3'),(13,'days_for_colorize_lost_info_hosts','Количество суток для проверки и \"подсвечивания\" фиолетовым цветом хостов в аналитике, информация о которых не появлялась за последние N суток.','14'),(14,'timezone','Тайм зона, используемая в интерфейсе по умолчанию','Asia/Bishkek'),(15,'emailaboutchanges','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту об изменениях в конфигурациях хостов','1'),(16,'emailaboutnewhosts','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту о новых хостах','1'),(17,'emailaboutfailedhosts','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту о непроверенных хостах','0'),(18,'telegram_message_send_max_tries','Максимальное допустимое количество попыток отправки сообщений (телеграм может посчитать за спам частую отправку сообщений)','20'),(19,'telegram_message_send_retry_delay','Промежуток между попытками отправки сообщений через телеграм (указывается в секундах)','15'),(20,'scanner_debug_mode_enabled','Включить режим отладки в сканере','1'),(21,'scanner_debug_level','Уровень отображения информации отладки в сканере','1'),(22,'smtp_debug_enabled','Включить режим отладки при отправке почты','0'),(23,'hdd_add_iscsi_drives','Учитывать при проверке хоста диски, подключенные по iSCSI','0'),(24,'hdd_add_usb_drives','Учитывать при проверке хоста диски, подключенные по USB','0');
 /*!40000 ALTER TABLE `options` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,7 +274,6 @@ CREATE TABLE `session` (
 
 LOCK TABLES `session` WRITE;
 /*!40000 ALTER TABLE `session` DISABLE KEYS */;
-INSERT INTO `session` VALUES ('9k9bpctahndh4gdom7b9sk81a1',1626873599,_binary '__flash|a:0:{}__id|i:4;__authKey|s:32:\"r0EuLCFK4o3l0vyS1T8i9_YBBxIj_iad\";__returnUrl|s:25:\"http://10.245.139.4/admin\";',NULL),('mmitl8nl4etjpn166i38qm65ee',1626948568,_binary '__flash|a:0:{}__id|i:1;__authKey|s:32:\"xX_sKglXxBi9pKHKPaq-E_6eit5wVXak\";',1);
 /*!40000 ALTER TABLE `session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,12 +286,12 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `fullname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `auth_key` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `password_reset_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `fullname` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `auth_key` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password_hash` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
+  `password_reset_token` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `status` smallint NOT NULL DEFAULT '10',
   `created_at` int NOT NULL,
   `updated_at` int NOT NULL,
@@ -299,7 +299,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `password_reset_token` (`password_reset_token`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,4 +321,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-22 15:47:25
+-- Dump completed on 2024-03-18 17:56:47
