@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # get mac and ip addresses exmaple:
-# ssh administrator@192.168.162.4 'pwsh -command "Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration | Select-Object -Property IPAddress,MacAddress | Where IPAddress -NE $null | ConvertTo-Json"'
+# ssh administrator@192.168.162.4 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration | Select-Object -Property IPAddress,MacAddress | Where IPAddress -NE $null | ConvertTo-Json"'
 
 import sys
 from paramiko.client import SSHClient, AutoAddPolicy, RejectPolicy
@@ -77,14 +77,14 @@ def ssh_wmi_getter(ipaddr,user,pwd,max_bytes=60000):
         host_ram_type = ''
         host_video = ''
         host_drives = ''
-        network_info_command = 'pwsh -command "Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration | Select-Object -Property IPAddress,MacAddress | Where IPAddress -NE $null | ConvertTo-Json"'
-        hostname_info_command = 'pwsh -command "Get-CimInstance -ClassName Win32_Processor | Select-Object -Property SystemName | ConvertTo-Json"'
-        motherboard_info_command = 'pwsh -command "Get-CimInstance -ClassName Win32_Baseboard | Select-Object -Property Manufacturer,Product,SerialNumber | ConvertTo-Json"'
-        cpu_info_command = 'pwsh -command "Get-CimInstance -ClassName Win32_Processor | Select-Object -Property Name,SerialNumber | ConvertTo-Json"'
-        ram_info_command = 'pwsh -command "Get-CimInstance -ClassName Win32_PhysicalMemory | Select-Object -Property Manufacturer,Capacity,SerialNumber | ConvertTo-Json"'
-        ram_type_info_command = 'pwsh -command "Get-CimInstance -ClassName Win32_PhysicalMemoryArray | Select-Object -Property MemoryErrorCorrection | ConvertTo-Json"'
-        video_info_command = 'pwsh -command "Get-CimInstance -ClassName Win32_VideoController | Select-Object -Property Name,PNPDeviceID,SerialNumber | ConvertTo-Json"'
-        drives_info_command = 'pwsh -command "Get-CimInstance -ClassName win32_DiskDrive | Select-Object -Property Model,Size,SerialNumber | ConvertTo-Json"'
+        network_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName Win32_NetworkAdapterConfiguration | Select-Object -Property IPAddress,MacAddress | Where IPAddress -NE $null | ConvertTo-Json"'
+        hostname_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName Win32_Processor | Select-Object -Property SystemName | ConvertTo-Json"'
+        motherboard_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName Win32_Baseboard | Select-Object -Property Manufacturer,Product,SerialNumber | ConvertTo-Json"'
+        cpu_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName Win32_Processor | Select-Object -Property Name,SerialNumber | ConvertTo-Json"'
+        ram_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName Win32_PhysicalMemory | Select-Object -Property Manufacturer,Capacity,SerialNumber | ConvertTo-Json"'
+        ram_type_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName Win32_PhysicalMemoryArray | Select-Object -Property MemoryErrorCorrection | ConvertTo-Json"'
+        video_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName Win32_VideoController | Select-Object -Property Name,PNPDeviceID,SerialNumber | ConvertTo-Json"'
+        drives_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName win32_DiskDrive | Select-Object -Property Model,Size,SerialNumber | ConvertTo-Json"'
         client = SSHClient()
         client.set_missing_host_key_policy(AutoAddPolicy())
         client.connect(ipaddr,username=user,password=pwd,look_for_keys=False)
