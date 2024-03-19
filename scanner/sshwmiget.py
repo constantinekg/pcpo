@@ -8,6 +8,7 @@ from paramiko.client import SSHClient, AutoAddPolicy, RejectPolicy
 import json
 import hwdb
 import re
+import config
 
 # Find word in string
 def findWholeWord(w):
@@ -87,37 +88,37 @@ def ssh_wmi_getter(ipaddr,user,pwd,max_bytes=60000):
         drives_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName win32_DiskDrive | Select-Object -Property Model,Size,SerialNumber | ConvertTo-Json"'
         client = SSHClient()
         client.set_missing_host_key_policy(AutoAddPolicy())
-        client.connect(ipaddr,username=user,password=pwd,look_for_keys=False)
+        client.connect(ipaddr,username=user,password=pwd,look_for_keys=False, timeout=config.ssh_timeout, auth_timeout=config.ssh_auth_timeout)
         # get mac by ip
-        stdin, stdout, stderr = client.exec_command(network_info_command)
+        stdin, stdout, stderr = client.exec_command(network_info_command, timeout=config.ssh_timeout)
         data = stdout.read() + stderr.read()
         network_info = json.loads(data.decode('UTF-8'))
         host_macaddr = get_macadrr_by_ip(ipaddr,network_info)
         # get hostname
-        stdin, stdout, stderr = client.exec_command(hostname_info_command)
+        stdin, stdout, stderr = client.exec_command(hostname_info_command, timeout=config.ssh_timeout)
         data = stdout.read() + stderr.read()
         host_name = json.loads(data.decode('UTF-8'))['SystemName']
         # get motherboard info
-        stdin, stdout, stderr = client.exec_command(motherboard_info_command)
+        stdin, stdout, stderr = client.exec_command(motherboard_info_command, timeout=config.ssh_timeout)
         data = stdout.read() + stderr.read()
         host_motherboard = format_info_about_motherboard(json.loads(data.decode('UTF-8')))
         # get cpu info
-        stdin, stdout, stderr = client.exec_command(cpu_info_command)
+        stdin, stdout, stderr = client.exec_command(cpu_info_command, timeout=config.ssh_timeout)
         data = stdout.read() + stderr.read()
         host_cpu = format_info_about_cpu(json.loads(data.decode('UTF-8')))
         # get ram info
-        stdin, stdout, stderr = client.exec_command(ram_info_command)
+        stdin, stdout, stderr = client.exec_command(ram_info_command, timeout=config.ssh_timeout)
         data_ram_info = stdout.read() + stderr.read()
         # get ram type info
-        stdin, stdout, stderr = client.exec_command(ram_type_info_command)
+        stdin, stdout, stderr = client.exec_command(ram_type_info_command, timeout=config.ssh_timeout)
         data_ram_type = stdout.read() + stderr.read()
         host_ram = format_info_about_ram(json.loads(data_ram_info.decode('UTF-8')), json.loads(data_ram_type.decode('UTF-8')))
         # get video info
-        stdin, stdout, stderr = client.exec_command(video_info_command)
+        stdin, stdout, stderr = client.exec_command(video_info_command, timeout=config.ssh_timeout)
         data_video_info = stdout.read() + stderr.read()
         host_video = format_info_about_video(json.loads(data_video_info))
         # get drives info
-        stdin, stdout, stderr = client.exec_command(drives_info_command)
+        stdin, stdout, stderr = client.exec_command(drives_info_command, timeout=config.ssh_timeout)
         hdd_info = stdout.read() + stderr.read()
         host_drives = format_info_about_drives(json.loads(hdd_info))
         # debug output
