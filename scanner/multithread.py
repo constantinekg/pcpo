@@ -53,6 +53,7 @@ def getHostsInfoByChunks(chunk):
     global count_live_hosts
     global failedhosts
     global newhosts
+    print (chunk)
     for i in chunk:
         hostfromscan = wmiget.gethostinfo(i[0],i[1],i[2])
         if hostfromscan != None:
