@@ -250,3 +250,28 @@ def getOptionByName(name):
     else:
         cnx.close()
     return res
+
+
+# Функция забора типа забора информации с хоста
+def getInfoGrabberType(iprange):
+    try:
+        cnx = mysql.connector.connect(user=config.mysqluser, password=config.mysqlpassword, host=config.mysqlhost, database=config.mysqldbname)
+        cursor = cnx.cursor()
+        query = ("SELECT `infograbbertype` FROM networks where iprange='"+iprange+"'")
+        cursor.execute(query)
+        infograbbertype = cursor.fetchone()
+        cursor.close()
+        print (infograbbertype)
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password")
+            res = False
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database does not exist")
+            res = False
+        else:
+            print(err)
+            res = False
+    else:
+        cnx.close()
+    return res
