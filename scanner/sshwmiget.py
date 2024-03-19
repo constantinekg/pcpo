@@ -88,7 +88,7 @@ def ssh_wmi_getter(ipaddr,user,pwd,max_bytes=60000):
         drives_info_command = 'c:/progra~1/powershell/7/pwsh.exe -command "Get-CimInstance -ClassName win32_DiskDrive | Select-Object -Property Model,Size,SerialNumber | ConvertTo-Json"'
         client = SSHClient()
         client.set_missing_host_key_policy(AutoAddPolicy())
-        client.connect(ipaddr,username=user,password=pwd,look_for_keys=False, timeout=config.ssh_timeout, auth_timeout=config.ssh_auth_timeout)
+        client.connect(ipaddr,username=user,password=pwd,look_for_keys=False, timeout=config.ssh_timeout, auth_timeout=config.ssh_timeout)
         # get mac by ip
         stdin, stdout, stderr = client.exec_command(network_info_command, timeout=config.ssh_timeout)
         data = stdout.read() + stderr.read()
