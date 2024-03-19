@@ -23,7 +23,7 @@ def scan(addr):
 
 
 def get_fast_scan_one_host(host):
-    nmapcommand = "nmap -T5 -sT -p 135 -n "+host+" --open -oG -"
+    nmapcommand = "nmap -T5 -sT -p 135,22 -n "+host+" --open -oG -"
     args = shlex.split(nmapcommand)
     nmout = subprocess.run(args, universal_newlines=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE).stdout
     for line in nmout.split('\n'):
