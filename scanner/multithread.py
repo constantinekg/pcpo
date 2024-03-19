@@ -8,6 +8,7 @@ import notify
 import config
 import time
 import datetime
+import sshwmiget
 import sys
 sys.dont_write_bytecode = True
 
@@ -53,9 +54,11 @@ def getHostsInfoByChunks(chunk):
     global count_live_hosts
     global failedhosts
     global newhosts
-    print (chunk)
     for i in chunk:
-        hostfromscan = wmiget.gethostinfo(i[0],i[1],i[2])
+        if i[3] == 0: # if 0 - wmi
+            hostfromscan = wmiget.gethostinfo(i[0],i[1],i[2])
+        elif i[3] == 1: # if 1 - ssh
+            hostfromscan = sshwmiget.ssh_wmi_getter(i[0],i[1],i[2])
         if hostfromscan != None:
             with lock:
                 count_live_hosts += 1

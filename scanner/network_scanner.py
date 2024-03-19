@@ -9,6 +9,7 @@ import subprocess
 import shlex
 import re
 import sys
+import sshwmiget
 sys.dont_write_bytecode = True
 
 def scan(addr):
@@ -75,6 +76,7 @@ def get_fast_live_hosts():
                 lh.append(line.split(' ')[1])
                 lh.append(i[1])
                 lh.append(i[2])
+                lh.append(i[3])
                 live_hosts.append(lh)
             else:
                 pass
