@@ -106,7 +106,7 @@ sudo /opt/pcpo/daemon/daemon_install.sh
 
 Проект на гитхабе: https://github.com/constantinekg/pcpo
 
-Готовый образ машины в формате qcow2:  https://cloud.mail.ru/public/1EkR/b3DGfh2de
+Готовый образ машины в формате qcow2:  https://cloud.mail.ru/public/rtyj/D81UpPHXW
 
 Обсуждение на хабре: https://habr.com/ru/post/570190/
 
