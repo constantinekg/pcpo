@@ -39,11 +39,19 @@ def format_info_about_ram(ram_info, ram_type):
     else:
         pass
     rams = []
-    for ram in ram_info:
+    if isinstance(ram_info, list):
+        for ram in ram_info:
+            ramstring = ''
+            ramstring += ram['Manufacturer'] + ' '
+            ramstring += str(round(int(ram['Capacity'])/1024/1024)) + 'Mb '
+            ramstring += 'S/N: ' + ram['SerialNumber'].strip() + ', '
+            ramstring += 'ram type: ' + memoryerrorcorrectiontype
+            rams.append(ramstring)
+    elif isinstance(ram_info, dict):
         ramstring = ''
-        ramstring += ram['Manufacturer'] + ' '
-        ramstring += str(round(int(ram['Capacity'])/1024/1024)) + 'Mb '
-        ramstring += 'S/N: ' + ram['SerialNumber'] + ', '
+        ramstring += ram_info['Manufacturer'] + ' '
+        ramstring += str(round(int(ram_info['Capacity'])/1024/1024)) + 'Mb '
+        ramstring += 'S/N: ' + ram_info['SerialNumber'].strip() + ', '
         ramstring += 'ram type: ' + memoryerrorcorrectiontype
         rams.append(ramstring)
     return ' | '.join([str(elem) for elem in rams])
@@ -94,18 +102,22 @@ def ssh_wmi_getter(ipaddr,user,pwd,max_bytes=60000):
         data = stdout.read() + stderr.read()
         network_info = json.loads(data.decode('UTF-8'))
         host_macaddr = get_macadrr_by_ip(ipaddr,network_info)
+        # print (host_macaddr)
         # get hostname
         stdin, stdout, stderr = client.exec_command(hostname_info_command, timeout=config.ssh_timeout)
         data = stdout.read() + stderr.read()
         host_name = json.loads(data.decode('UTF-8'))['SystemName']
+        # print (host_name)
         # get motherboard info
         stdin, stdout, stderr = client.exec_command(motherboard_info_command, timeout=config.ssh_timeout)
         data = stdout.read() + stderr.read()
         host_motherboard = format_info_about_motherboard(json.loads(data.decode('UTF-8')))
+        # print (host_motherboard)
         # get cpu info
         stdin, stdout, stderr = client.exec_command(cpu_info_command, timeout=config.ssh_timeout)
         data = stdout.read() + stderr.read()
         host_cpu = format_info_about_cpu(json.loads(data.decode('UTF-8')))
+        # print (host_cpu)
         # get ram info
         stdin, stdout, stderr = client.exec_command(ram_info_command, timeout=config.ssh_timeout)
         data_ram_info = stdout.read() + stderr.read()
