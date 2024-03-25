@@ -140,7 +140,7 @@ def compareConfigurations(conffromscan, conffromdb):
     changes = {'ipaddresschanges':0, 'hostnamechanges':0, 'motherboardchanges':0, 'cpuchanges':0, 'ramchanges':0, 'videochanges':0, 'hddchanges':0}
     for i in conffromdb:
         if conffromscan[x] != i:
-            difference = 'was: '+i+' | '+'now: '+conffromscan[x]
+            difference = "\n <b>was:</b> \n"+i+' \n '+"<b>now:</b> \n"+conffromscan[x]
             diff.append(difference)
             if x==0:
                 changes['ipaddresschanges'] = 1
