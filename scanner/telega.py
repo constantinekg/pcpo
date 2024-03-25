@@ -13,7 +13,7 @@ def alertforuser(textofmessage):
     retry_delay = int(hwdb.getOptionByName('telegram_message_send_retry_delay'))
     while tries < max_tries:
         try:
-            res = bot.send_message(chat_id=hwdb.getOptionByName('telegramchatid'), text=textofmessage)
+            res = bot.send_message(chat_id=hwdb.getOptionByName('telegramchatid'), text=textofmessage, parse_mode=telegram.ParseMode.HTML)
             # print (res)
         except (RetryAfter, TimedOut) as e:
             print("Message {} got exception {}".format(textofmessage, e))
