@@ -81,13 +81,14 @@ def getHostsInfoByChunks(chunk):
                 totalchanges['hddchanges'] += int(diff[1]['hddchanges'])
                 if len(diff[0]) != 0:
                     message_about_difference = 'Difference on host '+hostfromscan[0]+' has been found!'
+                    # print (hostfromscan) #TODO: remove it in prod
                     print (message_about_difference)
                     print (diff[0])
                     changes = ''
                     for i in diff[0]:
                         changes+=i+' | '
                         changestosendbyemail.append("Host: "+hostfromscan[0]+"\n"+i+' | ')
-                    notify.notifyAboutChangesInConfiguration(hostfromscan[0], changes)
+                    notify.notifyAboutChangesInConfiguration(hostfromscan[0]+" ({})".format(hostfromscan[1]), changes)
                     hwdb.addNewConfigurationToDB(hostfromscan)
                 else:
                     pass
