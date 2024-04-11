@@ -72,3 +72,10 @@ def notifyAboutScanFailByZeroLiveHosts(message):
         telega.alertforuser(message)
     else:
         pass
+
+# Функция отправки сообщений в telegram о недавно выключенных хостах
+def notifyAboutNewShutdwonHostsIntoTelegram(off_host):
+    if (hwdb.getOptionByName('shutdown_check_enabled') == '1' and hwdb.getOptionByName('telegram_notify_about_new_shutdown_hosts') == '1'):
+        telega.alertforuser(off_host)
+    else:
+        pass

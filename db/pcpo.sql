@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.36, for Linux (x86_64)
 --
--- Host: localhost    Database: pcpo
+-- Host: localhost    Database: pcpo2
 -- ------------------------------------------------------
 -- Server version	8.0.36-0ubuntu0.20.04.1
 
@@ -140,7 +140,7 @@ CREATE TABLE `hardware` (
   `macaddress` varchar(45) NOT NULL,
   `motherboard` varchar(240) NOT NULL,
   `cpu` varchar(240) NOT NULL,
-  `ram` varchar(1024) NOT NULL,
+  `ram` varchar(240) NOT NULL,
   `video` varchar(240) NOT NULL,
   `hdd` varchar(2048) DEFAULT '',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -172,9 +172,9 @@ CREATE TABLE `networks` (
   `iprange` varchar(45) NOT NULL,
   `user` varchar(45) NOT NULL,
   `password` varchar(120) NOT NULL,
-  `infograbbertype` int DEFAULT '0',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `infograbbertype` int DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -204,7 +204,7 @@ CREATE TABLE `options` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   UNIQUE KEY `name_UNIQUE` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,7 +213,7 @@ CREATE TABLE `options` (
 
 LOCK TABLES `options` WRITE;
 /*!40000 ALTER TABLE `options` DISABLE KEYS */;
-INSERT INTO `options` VALUES (1,'telegrambotapikey','Ключ бота telegram','0'),(2,'telegramchatid','id чата, куда будут высылаться уведомления','0'),(3,'notificationemail','Адрес почтового ящика, на который будут приходить уведомления, в случае если были обнаружены изменения (можно указать несколько адресов, разделяя их запятой [,])','recepient@somemail.tld'),(4,'smtphost','Адрес smtp сервера','smtp.yandex.ru'),(5,'smtpport','Порт smtp сервера','465'),(6,'smtpencryption','Протокол шифрования smtp сервера','1'),(7,'emailuser','Пользователь smtp сервера, от которого будет производиться отправка сообщений','alert@somemail.tld'),(8,'emailpwd','Пароль пользователя smtp сервера, от которого будет производиться отправка сообщений','strongpassword'),(9,'maxscanthreads','Максимально допустимое количество потоков забора информации с хостов','15'),(10,'telegram_notifications_enabled','Включить оповещение через телеграм','0'),(11,'smtp_notifications_enabled','Включить отправку сводного отчёта проверок на почту','0'),(12,'days_for_colorize_new_hosts','Количество суток для проверки и \"подсвечивания\" красным цветом хостов в аналитике, информация о которых появилась за последние N суток.','3'),(13,'days_for_colorize_lost_info_hosts','Количество суток для проверки и \"подсвечивания\" фиолетовым цветом хостов в аналитике, информация о которых не появлялась за последние N суток.','14'),(14,'timezone','Тайм зона, используемая в интерфейсе по умолчанию','Asia/Bishkek'),(15,'emailaboutchanges','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту об изменениях в конфигурациях хостов','1'),(16,'emailaboutnewhosts','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту о новых хостах','1'),(17,'emailaboutfailedhosts','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту о непроверенных хостах','0'),(18,'telegram_message_send_max_tries','Максимальное допустимое количество попыток отправки сообщений (телеграм может посчитать за спам частую отправку сообщений)','20'),(19,'telegram_message_send_retry_delay','Промежуток между попытками отправки сообщений через телеграм (указывается в секундах)','15'),(20,'scanner_debug_mode_enabled','Включить режим отладки в сканере','0'),(21,'scanner_debug_level','Уровень отображения информации отладки в сканере','1'),(22,'smtp_debug_enabled','Включить режим отладки при отправке почты','0'),(23,'hdd_add_iscsi_drives','Учитывать при проверке хоста диски, подключенные по iSCSI','1'),(24,'hdd_add_usb_drives','Учитывать при проверке хоста диски, подключенные по USB','1');
+INSERT INTO `options` VALUES (1,'telegrambotapikey','Ключ бота telegram','0'),(2,'telegramchatid','id чата, куда будут высылаться уведомления','0'),(3,'notificationemail','Адрес почтового ящика, на который будут приходить уведомления, в случае если были обнаружены изменения (можно указать несколько адресов, разделяя их запятой [,])','recepient@somemail.tld'),(4,'smtphost','Адрес smtp сервера','smtp.yandex.ru'),(5,'smtpport','Порт smtp сервера','465'),(6,'smtpencryption','Протокол шифрования smtp сервера','1'),(7,'emailuser','Пользователь smtp сервера, от которого будет производиться отправка сообщений','alert@somemail.tld'),(8,'emailpwd','Пароль пользователя smtp сервера, от которого будет производиться отправка сообщений','strongpassword'),(9,'maxscanthreads','Максимально допустимое количество потоков забора информации с хостов','15'),(10,'telegram_notifications_enabled','Включить оповещение через телеграм','0'),(11,'smtp_notifications_enabled','Включить отправку сводного отчёта проверок на почту','0'),(12,'days_for_colorize_new_hosts','Количество суток для проверки и \"подсвечивания\" красным цветом хостов в аналитике, информация о которых появилась за последние N суток.','3'),(13,'days_for_colorize_lost_info_hosts','Количество суток для проверки и \"подсвечивания\" фиолетовым цветом хостов в аналитике, информация о которых не появлялась за последние N суток.','14'),(14,'timezone','Тайм зона, используемая в интерфейсе по умолчанию','Asia/Bishkek'),(15,'emailaboutchanges','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту об изменениях в конфигурациях хостов','0'),(16,'emailaboutnewhosts','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту о новых хостах','0'),(17,'emailaboutfailedhosts','Нужно вкладывать информацию в сводные отчёты, которые отправляются на почту о непроверенных хостах','0'),(18,'telegram_message_send_max_tries','Максимальное допустимое количество попыток отправки сообщений (телеграм может посчитать за спам частую отправку сообщений)','20'),(19,'telegram_message_send_retry_delay','Промежуток между попытками отправки сообщений через телеграм (указывается в секундах)','15'),(20,'scanner_debug_mode_enabled','Включить режим отладки в сканере','0'),(21,'scanner_debug_level','Уровень отображения информации отладки в сканере','1'),(22,'smtp_debug_enabled','Включить режим отладки при отправке почты','0'),(23,'hdd_add_iscsi_drives','Учитывать при проверке хоста диски, подключенные по iSCSI','0'),(24,'hdd_add_usb_drives','Учитывать при проверке хоста диски, подключенные по USB','0'),(25,'telegram_notify_about_new_shutdown_hosts','Отправлять оповещения о недавно выключенных хостах в телеграм','0'),(26,'telegram_notify_about_old_shutdown_hosts','Отправлять сводный отчёт в телеграм о давно выключенных хостах','0'),(27,'telegram_old_shutdown_hosts_time','Кол-во часов, при значении которых давно не проверявшийся хост считается выключенным (не оповещать об данных выключенных хостах, превышающих данный порог времени, указывается в часах)','72'),(28,'telegram_new_shutdown_hosts_time','Кол-во часов, при значении которых хост считается недавно выключенным и о нём необходимо оповестить (указывается в часах, не должен превышать значение давно не проверявшихся хостов)','3'),(29,'email_about_shutdown_hosts','Отправлять на почту сводную статистику по выключенным хостам','0'),(30,'shutdown_check_enabled','Проверка на состояние выключенных хостов включена','0');
 /*!40000 ALTER TABLE `options` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -321,4 +321,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-20 11:33:04
+-- Dump completed on 2024-04-11  6:34:15

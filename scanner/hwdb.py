@@ -163,7 +163,7 @@ def compareConfigurations(conffromscan, conffromdb):
         x+=1
     return diff, changes
 
-
+# Проверка наличия хоста в бд по его мак адресу
 def checkIfExistByMac(macaddress):
     try:
         cnx = mysql.connector.connect(user=config.mysqluser, password=config.mysqlpassword, host=config.mysqlhost, database=config.mysqldbname)
@@ -251,3 +251,87 @@ def getOptionByName(name):
         cnx.close()
     return res
 
+# Функция забора перечня уникальных хостов (взять только уникальные мак адреса)
+def getUniqueHostsMacs():
+    try:
+        cnx = mysql.connector.connect(user=config.mysqluser, password=config.mysqlpassword, host=config.mysqlhost, database=config.mysqldbname)
+        cursor = cnx.cursor()
+        query = ("SELECT DISTINCT macaddress FROM pcpo.hardware")
+        cursor.execute(query)
+        uniquemacs = cursor.fetchall()
+        cursor.close()
+        cnx.close()
+        if len(uniquemacs) != 0:
+            res = uniquemacs
+        else:
+            res = False
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password")
+            res = False
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database does not exist")
+            res = False
+        else:
+            print(err)
+            res = False
+    else:
+        cnx.close()
+    return res
+
+# Функция забора последней даты изменения хоста по его мак адресу
+def getUpdatedAtByMacAddress(macaddress):
+    try:
+        cnx = mysql.connector.connect(user=config.mysqluser, password=config.mysqlpassword, host=config.mysqlhost, database=config.mysqldbname)
+        cursor = cnx.cursor()
+        query = ("select max(updated_at) as updated_at from hardware where macaddress = '" + macaddress + "' group by macaddress")
+        cursor.execute(query)
+        updated_at = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+        if len(updated_at) != 0:
+            res = updated_at[0]
+        else:
+            res = False
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password")
+            res = False
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database does not exist")
+            res = False
+        else:
+            print(err)
+            res = False
+    else:
+        cnx.close()
+    return res
+
+# Запрос последнего имени хоста и ip адреса по указанному мак адресу
+def queryHostNameAndIpAddressByMacAddrress(macaddr):
+    try:
+        cnx = mysql.connector.connect(user=config.mysqluser, password=config.mysqlpassword, host=config.mysqlhost, database=config.mysqldbname)
+        cursor = cnx.cursor()
+        query = ("SELECT ipaddress, hostname FROM hardware WHERE macaddress = %s ORDER BY id DESC LIMIT 1")
+        addr = (macaddr, )
+        cursor.execute(query, addr)
+        ipandhostname = cursor.fetchone()
+        cursor.close()
+        cnx.close()
+        if len(ipandhostname) != 0:
+            res = ipandhostname
+        else:
+            res = False
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password")
+            res = False
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database does not exist")
+            res = False
+        else:
+            print(err)
+            res = False
+    else:
+        cnx.close()
+    return res
