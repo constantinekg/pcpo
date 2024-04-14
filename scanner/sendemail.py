@@ -20,8 +20,7 @@ def check(email):
       
 
 # Функция отправки уведомлений на почту об изменениях
-def sendemail(message):
-
+def sendemail(message, mailsubject='Subject: PC Park Observer notification.'):
     mailreceivers = hwdb.getOptionByName('notificationemail')
     mr = mailreceivers.split(',')
     email = hwdb.getOptionByName('emailuser')
@@ -44,10 +43,10 @@ def sendemail(message):
                         server.set_debuglevel(1)
                     else:
                         pass
-                    server.ehlo(email)
+                    server.ehlo('pcpo')
                     server.login(email, password)
                     server.auth_plain()
-                    server.sendmail(email, mailaddresses, 'Subject: PC Park Observer notification. \n{}'.format(msg))
+                    server.sendmail(email, mailaddresses, mailsubject + ' \n{}'.format(msg))
                     server.quit()
                 elif (mailencryption == '2'):
                     # print ('tls')
@@ -60,11 +59,11 @@ def sendemail(message):
                     else:
                         pass
                     server.connect(smtphost, smtpport)
-                    server.ehlo()
+                    server.ehlo('pcpo')
                     server.starttls(context = context)
-                    server.ehlo()
+                    server.ehlo('pcpo')
                     server.login(email, password)
-                    server.sendmail(email, mailaddresses, 'Subject: PC Park Observer notification. \n{}'.format(msg))
+                    server.sendmail(email, mailaddresses, mailsubject + ' \n{}'.format(msg))
                     server.quit()
                 else:
                     pass
@@ -74,4 +73,3 @@ def sendemail(message):
         else:
             print ('Email address format error!')
             pass
-

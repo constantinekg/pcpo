@@ -102,6 +102,18 @@ root@pcpo:~# /opt/pcpo/scanner/rerun.sh
 sudo /opt/pcpo/daemon/daemon_install.sh
 ```
 
+### Проверка на выключенные хосты:
+
+Выполняется отдельным сценарием вызовом на исполнение файла (по умолчанию - /opt/pcpo/scanner/checkrunnedhosts.py)
+
+Чтобы вызывать в периодическом режиме в крон можно например добавить:
+
+```
+1 * * * * /opt/pcpo/scanner/checkrunnedhosts.py
+```
+
+Все параметры проверки на выключенные хосты устанавливаются в системных настройках.
+
 ### Ресурсы:
 
 Проект на гитхабе: https://github.com/constantinekg/pcpo

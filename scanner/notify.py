@@ -63,6 +63,16 @@ def mailReportAboutScan(changes,failed,new):
     else:
         pass
 
+# Функция отправки сводного отчёта по выключенным хостам
+def mailAboutShutdownHosts(reportmessage):
+    if (hwdb.getOptionByName('smtp_notifications_enabled') == '1'):
+        if (reportmessage != ''):
+            sendemail.sendemail(reportmessage, 'Subject: PC Park Observer shutdown hosts notification.')
+        else:
+            pass
+    else:
+        pass
+
 def notifyAboutScanFailByZeroLiveHosts(message):
     if (hwdb.getOptionByName('smtp_notifications_enabled') == '1'):
         sendemail.sendemail('Проверка прошла неудачно',message)
@@ -74,8 +84,8 @@ def notifyAboutScanFailByZeroLiveHosts(message):
         pass
 
 # Функция отправки сообщений в telegram о недавно выключенных хостах
-def notifyAboutNewShutdwonHostsIntoTelegram(off_host):
-    if (hwdb.getOptionByName('shutdown_check_enabled') == '1' and hwdb.getOptionByName('telegram_notify_about_new_shutdown_hosts') == '1'):
-        telega.alertforuser(off_host)
+def notifyAboutShutdwonHostsIntoTelegram(off_host, messagesubject='<b>OLD SHUTDOWNED HOSTS:</b>'):
+    if (hwdb.getOptionByName('shutdown_check_enabled') == '1' and hwdb.getOptionByName('telegram_notifications_enabled') == '1'):
+        telega.alertforuser(messagesubject + "\n" + off_host)
     else:
         pass
